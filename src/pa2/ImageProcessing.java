@@ -9,40 +9,33 @@ public class ImageProcessing {
 
 	public static Picture reduceWidth(int x, String inputImage) {
 		Picture p = new Picture(inputImage);
+		Picture croppedPicture = null;
 		int[][] mat = new int[p.height()][p.width()];
-		int width = p.width();
-		int height = p.height();
 
-		for(int i = 0; i <= x; i++) {
-			System.out.println("We are here");
-			int[][] importance = importance(mat, p);
-			ArrayList<Tuple> widthCut = MatrixCuts.widthCut(importance);
-			int[][] newPic = new int[p.height()][width--];
-			widthCut.remove(0);
+		//for(int k = 0; k <= x; k++) {
+		int[][] importance = importance(mat, p);
+		ArrayList<Tuple> widthCut = MatrixCuts.widthCut(importance);
+		widthCut.remove(0);
 
-			ImageStitch.crop(p, 1);
+		for(Tuple tuple: widthCut) {
+			int i = tuple.getY();
+			for(int j = 0; j < p.height(); j++) {
+				p.set(i - 1, j, p.get(i, j));
+			}
 
+//			for(int i = tuple.getY() + 1; i < p.width(); i++) {
+//				if(j >= p.height()) {
+//					break;
+//				}
+//				p.set(i - 1, j, p.get(i, j));
+//				
+//			}
 
 		}
 
-
-
-		//		for(int w = p.width() - 1; w >= p.width() - x; w--) {
-		//			int[][] importance = importance(mat, p);
-		//			ArrayList<Tuple> widthCut = MatrixCuts.widthCut(importance);
-		//			widthCut.remove(0);
-		//			for(Tuple tuple: widthCut) {
-		//				int count = 0;
-		//				for(int i = tuple.getY(); i < w; i++) {
-		//					p.set(tuple.getY() + count, tuple.getX(), p.get(tuple.getY() + count, tuple.getX()));
-		//					count++;
-		//					
-		//				}
-		//			}
-		//			croppedImage = ImageStitch.crop(p, 1);	
-		//			
-		//		}
-		return null;
+		croppedPicture = ImageStitch.crop(p, x);
+		//}
+		return croppedPicture;
 	}
 
 	private static int[][] importance(int[][] importance, Picture picture){
@@ -65,7 +58,7 @@ public class ImageProcessing {
 
 	public static void main(String[] args) {
 		Picture p1 = new Picture("iastate1.jpg");
-		Picture p = reduceWidth(500, "iastate1.jpg");
+		Picture p = reduceWidth(50, "iastate1.jpg");
 		p1.show();
 		p.show();
 	}
