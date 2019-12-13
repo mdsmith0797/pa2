@@ -2,6 +2,11 @@ package pa2;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Matthew Smith and Mitchell Knoth
+ *
+ */
 public class MatrixCuts {
 
 	public static ArrayList<Tuple> widthCut(int[][] M){
@@ -11,6 +16,7 @@ public class MatrixCuts {
 				if(j - 1 < 0) {
 					M[i][j] = M[i][j] + M[i - 1][j];
 				}else if(j + 1 > M[0].length - 1) {
+
 					M[i][j] = M[i][j] + M[i - 1][j - 1];
 				}else {
 					int min = findMin(M[i][j] + M[i - 1][j - 1], M[i][j] + M[i - 1][j + 1], M[i][j] + M[i - 1][j]);
@@ -92,6 +98,13 @@ public class MatrixCuts {
 		return resultList;
 	}
 
+	/**
+	 * Given three numbers it will return the minimum between the 3 values.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return Minimum value
+	 */
 	private static int findMin(int x, int y, int z) {
 		int min = 0;
 		if(x <= y && x <= z) {
